@@ -67,19 +67,19 @@ jobs:
           paths: [frontend/node_modules]
           key: frontend-deps
 
-  test-frontend:
-    docker:
-      image: cimg/node:13.8.0
-    steps:
-      - checkout
-      - restore_cache:
-          keys: [frontend-deps]
-      - run:
-          name: front-end unit test
-          command: |
-            cd frontend
-            npm install
-            npm test   
+  # test-frontend:
+  #   docker:
+  #     image: cimg/node:13.8.0
+  #   steps:
+  #     - checkout
+  #     - restore_cache:
+  #         keys: [frontend-deps]
+  #     - run:
+  #         name: front-end unit test
+  #         command: |
+  #           cd frontend
+  #           npm install
+  #           npm test   
 
 
   # test-backend:
