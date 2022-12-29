@@ -1,14 +1,14 @@
 version: 2.1
 
 orbs:
-  slack: project-3-Udapeople.CICD/slack@4.9.3
+  slack: CICD/slack@4.9.3
 
 commands:
   notify_on_failure:
     steps:
       - slack/notify:
           event: fail
-          channel: project-3-Udapeople.CICD-pipeline
+          channel: CICD-pipeline
           template: basic_fail_1
 
 #   destroy-environment:
@@ -316,7 +316,7 @@ jobs:
     steps:
       - slack/notify:
           event: pass
-          channel: project-3-Udapeople.CICD-pipeline
+          channel: CICD-pipeline
           template: success_tagged_deployment_1  
 
 workflows:
