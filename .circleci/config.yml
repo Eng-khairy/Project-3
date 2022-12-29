@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  slack: circle-ci/slack@4.9.3
+  slack: circleci/slack@4.9.3
 
 
 commands:
@@ -9,7 +9,7 @@ commands:
     steps:
       - slack/notify:
           event: fail
-          channel: circle-ci-pipeline
+          channel: cicd-pipeline
           template: basic_fail_1
 
 #   destroy-environment:
@@ -42,8 +42,7 @@ commands:
 #             #  Add revert code here. You can find this in the Getting Started section.
 #               exit 1
 #             fi
-
-
+            
 jobs:
   build-frontend:
     docker:
