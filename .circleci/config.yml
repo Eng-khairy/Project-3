@@ -1,3 +1,4 @@
+version: 2.1
 - slack/notify:
     event: always
     custom: |
@@ -16,7 +17,6 @@
         ]
       }
 
-version: 2.1
 orbs:
   slack: project-3-Udapeople.CICD/slack@4.9.3
 
