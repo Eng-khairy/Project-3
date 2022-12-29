@@ -112,7 +112,21 @@ jobs:
           key: backend-deps
       - notify_on_failure    
 
-
+  scan-frontend:
+    docker:
+      - image: cimg/node:13.8.0
+    steps:
+      - checkout
+      - restore_cache:
+          keys: [frontend-deps]
+      - run:
+          name: Front-end scan
+          command: |
+            cd frontend
+            npm install
+            npm audit fix --force --audit-level=critical
+            npm audit --audit-level=critical
+      - notify_on_failure
 
   scan-backend:
     docker:
