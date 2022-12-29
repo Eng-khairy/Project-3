@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  slack: project-3-Udapeople.CICD/slack@4.9.3
+  slack: circle-ci/slack@4.9.3
 
 
 commands:
@@ -9,7 +9,7 @@ commands:
     steps:
       - slack/notify:
           event: fail
-          channel: project-3-Udapeople.CICD-pipeline
+          channel: circle-ci-pipeline
           template: basic_fail_1
 
 #   destroy-environment:
