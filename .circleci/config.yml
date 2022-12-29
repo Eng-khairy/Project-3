@@ -125,6 +125,7 @@ jobs:
             cd frontend
             npm install
             npm audit fix --force --audit-level=critical
+            npm audit fix --force --audit-level=critical
             npm audit --audit-level=critical
       - notify_on_failure         
 
@@ -332,7 +333,7 @@ workflows:
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
-          
+
       - notify_on_success:
           requires:
             - test-frontend
