@@ -314,7 +314,7 @@ jobs:
 #               # your code here
 #             fi
 
-notify on success:
+ - notify_on_success:
     docker:
       - image: cimg/node:13.8.0
     steps:
@@ -336,7 +336,7 @@ workflows:
           requires: [build-backend]
       - scan-frontend:
           requires: [build-frontend]
-      - notify on success:
+      - notify_on_success:
           requires:
             - test-frontend:
             - test-backend:
