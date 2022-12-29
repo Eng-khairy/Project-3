@@ -1,25 +1,6 @@
 version: 2.1
-- slack/notify:
-    event: always
-    custom: |
-      {
-        "blocks": [
-          {
-            "type": "section",
-            "fields": [
-              {
-                "type": "plain_text",
-                "text": "*This is a text notification*",
-                "emoji": true
-              }
-            ]
-          }
-        ]
-      }
-
 orbs:
   slack: project-3-Udapeople.CICD/slack@4.9.3
-
 command:
   notify_on_filure:
     steps:
@@ -27,8 +8,6 @@ command:
        event: fail
        channel: project-3-Udapeople.CICD-pipeline
        template: basic_fail_1
-
-
 
 # commands:
 #   destroy-environment:
