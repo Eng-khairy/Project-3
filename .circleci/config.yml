@@ -114,7 +114,7 @@ jobs:
       - save_cache:
           paths: [backend/node_modules]
           key: backend-build
-      -notify_on_failure
+      - notify_on_failure
   scan-frontend:
     docker:
       - image: cimg/node:13.8.0
