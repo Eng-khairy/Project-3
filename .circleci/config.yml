@@ -1,6 +1,6 @@
 version: 2.1
 
-  commands:
+commands:
     install_awscli:
       description: Install AWS CLI v2
       steps:
@@ -166,7 +166,7 @@ jobs:
             npm audit --audit-level=critical
       - notify_on_failure
     
-deploy-infrastructure:
+  deploy-infrastructure:
     docker:
       - image: cimg/base:stable
     steps:
