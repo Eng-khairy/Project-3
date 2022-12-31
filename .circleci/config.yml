@@ -23,15 +23,14 @@ commands:
                sudo apt install ansible 
 
 # orbs:
-#   slack: circleci/slack@4.9.3
-
-# commands:
-#   notify_on_failure:
-#     steps:
-#       - slack/notify:
-#           event: fail
-#           channel: circle-ci-pipeline
-#           template: basic_fail_1
+#     slack: circleci/slack@4.9.3
+#      commands:
+#     notify_on_failure:
+#       steps:
+#         - slack/notify:
+#             event: fail
+#             channel: circle-ci-pipeline
+#             template: basic_fail_1
 
 destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
@@ -210,7 +209,6 @@ jobs:
           paths:
             - project/.circleci/ansible/inventory.txt      
 
-      - destroy-environment
 
 
   # configure-infrastructure:
