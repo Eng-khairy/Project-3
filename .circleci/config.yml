@@ -261,7 +261,7 @@ jobs:
               # If you are using kvdb.io, generate the bucket ID "Up68KQvVZCMC32AM4i2mJR" in your local terminal first
               curl -d '1' https://kvdb.io/WHgL4e7X6TE5H2S6QBDjpa/migration_${CIRCLE_WORKFLOW_ID:0:7}  
             fi
-      - revert-migrations
+      # - revert-migrations
       - destroy-environment
 
      # Here's where you will add some code to rollback on failure      
