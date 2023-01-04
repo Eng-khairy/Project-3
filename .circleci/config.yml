@@ -249,7 +249,8 @@ jobs:
     docker:
       - image: cimg/node:13.8.0
     steps:
-      - checkout 
+      - checkout
+      - install_awscli
       - run:
           name: Run migrations
           command: |
@@ -257,7 +258,7 @@ jobs:
             npm install      
             npm run migrations > migrations_dump.txt
       - run: 
-          name: Send Migration Results to kvdb.io
+          name: Send Migration status to kvdb.io
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
