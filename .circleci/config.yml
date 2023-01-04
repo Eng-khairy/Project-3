@@ -62,7 +62,7 @@ destroy-environment:
             aws s3 rm s3://udapeople-<<parameters.Workflow_ID>> --recursive
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.Workflow_ID >>
 
-revert-migrations: #this steps  for create migrations 
+revert-migrations:  
     description: Revert the last migration
     parameters:
       Workflow_ID:
@@ -245,7 +245,7 @@ jobs:
       
       # - destroy-environment      
 
-  run-migrations: # create run-migrations
+  run-migrations: 
     docker:
       - image: cimg/node:13.8.0
     steps:
@@ -279,9 +279,8 @@ jobs:
       # - revert-migrations
       # - destroy-environment
 
-     # Here's where you will add some code to rollback on failure      
 
-  deploy-frontend: # create deploy-frontend
+  deploy-frontend: 
     docker:
       - image: cimg/node:13.8.0
     steps:
@@ -314,9 +313,8 @@ jobs:
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       # - destroy-environment
 
-      # Here's where you will add some code to rollback on failure      
                     
-  deploy-backend: # create deploy-backend
+  deploy-backend: 
     docker:
       - image: cimg/python:3.10
     steps:
