@@ -337,7 +337,7 @@ jobs:
       - restore_cache:
           keys: [backend-deps]
       - run:
-          name:
+          name: inatall
           command: |
             cd backend
             npm install
@@ -366,7 +366,7 @@ jobs:
       # - destroy-environment   
       # - revert-migrations 
 
-  smoke-test: 
+smoke-test: 
     docker:
       - image: amazon/aws-cli
     steps:
