@@ -279,55 +279,79 @@ jobs:
       # - revert-migrations
       # - destroy-environment
 
-
   deploy-frontend: 
     docker:
-      - image: cimg/node:13.8.0
+      - image: cimg/base:stable
     steps:
       - checkout
-      - run: sudo apt-get install tar gzip -y
+      - install_awscli
+      - install_nodejs
       - restore_cache:
           keys: [frontend-build]
       - run:
-          name: Install dependencies
-          command: |
-            sudo apt-get update && sudo apt-get install -yy less
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install   
+         name: Install dependencies
+         command: |
+           cd frontend
+           npm install
       - run:
           name: Get backend url
           command: |
-            export BACKEND_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
-            export API_URL="http://${BACKEND_IP}:3030"
-            echo "API_URL = ${API_URL}"
-            echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
+            BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
+             --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+             --query 'Reservations[*].Instances[*].PublicIpAddress' \
+             --output text)
+              echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
             cat frontend/.env
       - run:
           name: Deploy frontend objects
           command: |
             cd frontend
-            npm install
             npm run build
-            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+      
+      
       # - destroy-environment
+
+  # deploy-frontend: 
+  #   docker:
+  #     - image: cimg/node:13.8.0
+  #   steps:
+  #     - checkout
+  #     - run: sudo apt-get install tar gzip -y
+  #     - restore_cache:
+  #         keys: [frontend-build]
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #           sudo apt-get update && sudo apt-get install -yy less
+  #           curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+  #           unzip awscliv2.zip
+  #           sudo ./aws/install   
+  #     - run:
+          # name: Get backend url
+          # command: |
+          #   export BACKEND_IP=$(aws ec2 describe-instances --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" --query 'Reservations[*].Instances[*].PublicIpAddress' --output text)
+          #   export API_URL="http://${BACKEND_IP}:3030"
+          #   echo "API_URL = ${API_URL}"
+            # echo API_URL="http://${BACKEND_IP}:3030" >> frontend/.env
+            # cat frontend/.env
+      # - run:
+      #     name: Deploy frontend objects
+      #     command: |
+      #       cd frontend
+      #       npm install
+      #       npm run build
+      #       tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
+      #       aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+      # # - destroy-environment
 
                     
   deploy-backend: 
     docker:
-      - image: cimg/python:3.10
+      - image: cimg/base:stable
     steps:
       - checkout
-      - run: sudo apt-get install tar gzip -y
-      - run: 
-          name: Install aws_cli
-          command: |
-            #test
-            sudo apt-get update && sudo apt-get install -yy less
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install    
+      - install_awscli
       - install_ansible
       - install_nodejs
       - add_ssh_keys:
@@ -359,12 +383,22 @@ jobs:
             export TYPEORM_MIGRATIONS=./migrations/*.ts
 
             cd .circleci/ansible
-            echo "Contents  of the inventory file is -------"
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
-            
+           
       # - destroy-environment   
       # - revert-migrations 
+      #  echo "Contents  of the inventory file is -------"
+
+      # - run: sudo apt-get install tar gzip -y
+      # - run: 
+      #     name: Install aws_cli
+      #     command: |
+      #       #test
+      #       sudo apt-get update && sudo apt-get install -yy less
+      #       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      #       unzip awscliv2.zip
+      #       sudo ./aws/install  
 
 smoke-test: 
     docker:
