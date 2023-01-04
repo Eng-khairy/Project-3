@@ -75,11 +75,14 @@ revert-migrations:
           command: |
             SUCCESS=$(curl --insecure  https://kvdb.io/WHgL4e7X6TE5H2S6QBDjpa/migration_<< parameters.Workflow_ID >>)
             # Logic for reverting the database state
-            if (( $SUCCESS == 1 ));
+            if [ "$SUCCESS" !== "Not Found"]
             then
-              cd ~/projects/backend
-              npm install
-              npm run migration:revert
+              if (( $SUCCESS == 1 ));
+              then
+                cd ~/projects/backend
+                npm install
+                npm run migration:revert
+              fi
             fi
 
 jobs:
