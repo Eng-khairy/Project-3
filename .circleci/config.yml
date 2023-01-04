@@ -435,14 +435,14 @@ smoke-test: # createe smoke-test
 #             then
 #               # your code here
 #             fi
-  notify_on_success:
-    docker:
-      - image: cimg/base:stable
-    steps:
-      - slack/notify:
-          event: pass
-          channel: circle-ci-pipeline
-          template: success_tagged_deployment_1  
+  # notify_on_success:
+  #   docker:
+  #     - image: cimg/base:stable
+  #   steps:
+  #     - slack/notify:
+  #         event: pass
+  #         channel: circle-ci-pipeline
+  #         template: success_tagged_deployment_1  
 
 workflows:
   default:
