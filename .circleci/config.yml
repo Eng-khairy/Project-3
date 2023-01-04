@@ -249,33 +249,35 @@ jobs:
     docker:
       - image: cimg/node:13.8.0
     steps:
-      - checkout
-      - restore_cache:
-          keys: [backend-build]
-      - run: 
-          name: Install aws cli
-          command: |
-            #test
-            sudo apt-get update && sudo apt-get install -yy less
-            curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-            unzip awscliv2.zip
-            sudo ./aws/install     
+      - checkout 
       - run:
           name: Run migrations
           command: |
             cd backend 
             npm install      
             npm run migrations > migrations_dump.txt
-            cat migrations_dump.txt
-
       - run: 
           name: Send Migration Results to kvdb.io
           command: |
             if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
             then
-              If you are using kvdb.io, generate the bucket ID "Up68KQvVZCMC32AM4i2mJR" in your local terminal first
-              curl -d '1' https://kvdb.io/WHgL4e7X6TE5H2S6QBDjpa/migration_${CIRCLE_WORKFLOW_ID:0:7}  
+              curl https://kvdb.io/WHgL4e7X6TE5H2S6QBDjpa/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
             fi
+
+
+
+      # - restore_cache:
+      #     keys: [backend-build]
+      # - run: 
+      #     name: Install aws cli
+      #     command: |
+      #       #test
+      #       sudo apt-get update && sudo apt-get install -yy less
+      #       curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+      #       unzip awscliv2.zip
+      #       sudo ./aws/install    
+
+
       # - revert-migrations
       # - destroy-environment
 
