@@ -366,7 +366,7 @@ jobs:
       # - destroy-environment   
       # - revert-migrations 
 
-smoke-test: # createe smoke-test
+  smoke-test: 
     docker:
       - image: amazon/aws-cli
     steps:
@@ -399,6 +399,7 @@ smoke-test: # createe smoke-test
             else
               exit 1
             fi 
+
       # - destroy-environment 
       # - revert-migrations
 
