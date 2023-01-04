@@ -365,7 +365,7 @@ jobs:
 #       #       unzip awscliv2.zip
 #       #       sudo ./aws/install  
 
-smoke-test: 
+  smoke-test: 
     docker:
       - image: amazon/aws-cli
     steps:
