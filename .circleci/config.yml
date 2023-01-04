@@ -374,12 +374,7 @@ jobs:
     steps:
       - checkout
       - install_awscli
-      - install_nodejs
-      - run:
-          name: "Install curl"
-          command: |
-            yum install -y curl
-           
+      - install_nodejs       
       - run:
           name: Backend smoke test.
           command: |
