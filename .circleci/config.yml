@@ -244,7 +244,7 @@ jobs:
             cd .circleci/ansible
             cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
-      - destroy-environment      
+      # - destroy-environment      
 
   run-migrations: 
     docker:
@@ -282,7 +282,7 @@ jobs:
                echo " No Migrations Performed "
                cat ~/project/backend/migrations_dump.txt
              fi 
-      - destroy-environment
+      # - destroy-environment
       - revert-migrations
 
 
@@ -331,7 +331,7 @@ jobs:
             cd frontend
             npm run build
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
-      - destroy-environment
+      # - destroy-environment
       - revert-migrations
 
   deploy-backend: 
@@ -373,7 +373,7 @@ jobs:
             cd .circleci/ansible
             cat inventory.txt
             ansible-playbook -i inventory.txt deploy-backend.yml
-      - destroy-environment
+      # - destroy-environment
       - revert-migrations
            
   smoke-test: 
@@ -407,7 +407,7 @@ jobs:
             else
               exit 1
             fi
-      - destroy-environment
+      # - destroy-environment
       - revert-migrations
 
       # - destroy-environment 
