@@ -160,14 +160,14 @@ jobs:
       - run:
           name: Front-end scan
           command: |
-            # cd frontend
-            # npm install
-            # npm audit fix --force --audit-level=critical
+            cd frontend
+            npm install
+            npm audit fix --force --audit-level=critical
 
-            npm update minimist --depth 4
-            npm update loader-utils --depth 2
-            npm audit fix --force --audit-level=critical
-            npm audit fix --force --audit-level=critical
+            # npm update minimist --depth 4
+            # npm update loader-utils --depth 2
+            # npm audit fix --force --audit-level=critical
+            # npm audit fix --force --audit-level=critical
             npm audit --audit-level=critical
             
   scan-backend:
