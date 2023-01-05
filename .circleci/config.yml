@@ -375,7 +375,8 @@ jobs:
       # - destroy-environment
       # - revert-migrations
            
-  smoke-test: 
+
+  smoke-test:
     docker:
       - image: cimg/base:stable
     steps:
@@ -383,7 +384,7 @@ jobs:
       - install_awscli
       - install_nodejs
       - run:
-          name: Backend smoke test
+          name: Backend smoke test.
           command: |
             BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
               --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
@@ -406,8 +407,6 @@ jobs:
             else
               exit 1
             fi
-      # - destroy-environment
-      # - revert-migrations
 
       # - destroy-environment 
       # - revert-migrations
