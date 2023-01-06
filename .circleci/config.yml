@@ -2,7 +2,7 @@ version: 2.1
 
 
 commands:
-install_aws_cli_v2:
+  install_aws_cli_v2:
     description: install aws cli v2
     steps:
       - run:
@@ -11,7 +11,7 @@ install_aws_cli_v2:
             curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
             unzip awscliv2.zip
             sudo ./aws/install
-install_ansible:
+  install_ansible:
     description: install Ansible
     steps:
       - run:
@@ -21,14 +21,14 @@ install_ansible:
             sudo apt install software-properties-common -y
             sudo add-apt-repository --yes --update ppa:ansible/ansible
             sudo apt install ansible -y
-install_nodejs:
+  install_nodejs:
     description: install nodejs 13.8
     steps:
       - run:
           name: install nodejs 13.8
           command: |
             curl -fsSL https://deb.nodesource.com/setup_13.x | sudo -E bash - && sudo apt-get install -y nodejs
-destroy-environment:
+  destroy-environment:
     description: Destroy back-end and front-end cloudformation stacks given a workflow ID.
     parameters:
       workflow_id:
@@ -48,7 +48,7 @@ destroy-environment:
             echo "Destroying frontend environment: << parameters.workflow_id >>"
             aws s3 rm s3://udapeople-<< parameters.workflow_id >> --recursive
             aws cloudformation delete-stack --stack-name udapeople-frontend-<< parameters.workflow_id >>
-revert-migrations:
+  revert-migrations:
     description: Revert the last migration if successfully run in the current workflow.
     parameters:
       workflow_id:
@@ -89,7 +89,7 @@ jobs:
           paths: [frontend/node_modules]
           key: frontend-build
 
-build-backend:
+  build-backend:
     docker:
       - image: circleci/node:13.8.0
     steps:
@@ -106,7 +106,7 @@ build-backend:
           paths: [backend/node_modules]
           key: backend-build
 
-test-frontend:
+  test-frontend:
     docker:
       - image: circleci/node:13.8.0
     steps:
@@ -120,7 +120,7 @@ test-frontend:
             npm install
             npm run test
                 
-test-backend:
+  test-backend:
     docker:
       - image: circleci/node:13.8.0
     steps:
@@ -133,7 +133,7 @@ test-backend:
             cd backend
             npm install
             npm run test
-scan-frontend:
+  scan-frontend:
     docker:
       - image: circleci/node:13.8.0
     steps:
@@ -149,7 +149,7 @@ scan-frontend:
             npm update loader-utils --depth 2
             npm update minimist --depth 4
             npm audit --audit-level=critical
-scan-backend:
+  scan-backend:
     docker:
       - image: circleci/node:13.8.0
     steps:
@@ -165,7 +165,7 @@ scan-backend:
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
  
-deploy-infrastructure:
+  deploy-infrastructure:
     docker:
       - image: amazon/aws-cli
     steps:
@@ -204,7 +204,7 @@ deploy-infrastructure:
           #event: on_fail
       #- notify_on_failure
 
-configure-infrastructure:
+  configure-infrastructure:
     docker:
       - image: cimg/base:stable
       #python:3.9.0-alpine
@@ -235,7 +235,7 @@ configure-infrastructure:
       - destroy-environment
          # workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
           #event: on_fail
-run-migrations:
+  run-migrations:
     docker:
       - image: cimg/node:13.8.0
     steps:
