@@ -171,7 +171,8 @@ jobs:
             npm audit fix --audit-level=critical --force
             npm audit fix --audit-level=critical --force
             npm audit --audit-level=critical
-  deploy-infrastructure:
+ 
+deploy-infrastructure:
     docker:
       - image: amazon/aws-cli
     steps:
@@ -210,7 +211,7 @@ jobs:
           #event: on_fail
       #- notify_on_failure
 
-  configure-infrastructure:
+configure-infrastructure:
     docker:
       - image: cimg/base:stable
       #python:3.9.0-alpine
@@ -241,7 +242,7 @@ jobs:
       - destroy-environment
          # workflow_id: "${CIRCLE_WORKFLOW_ID:0:7}"
           #event: on_fail
-  run-migrations:
+run-migrations:
     docker:
       - image: cimg/node:13.8.0
     steps:
@@ -262,9 +263,8 @@ jobs:
             fi
       - destroy-environment
       - revert-migrations
-     # Here's where you will add some code to rollback on failure      
 
-  deploy-frontend:
+deploy-frontend:
     docker:
       # Docker image here that supports AWS CLI
       - image: cimg/base:stable
@@ -306,7 +306,7 @@ jobs:
       - destroy-environment
       - revert-migrations
 
-  deploy-backend:
+deploy-backend:
     docker:
       # Docker image here that supports Ansible
       - image: cimg/base:stable
@@ -347,7 +347,7 @@ jobs:
       - destroy-environment
       - revert-migrations
 
-  smoke-test:
+smoke-test:
     docker:
       - image: cimg/base:stable
     steps:
@@ -382,7 +382,7 @@ jobs:
             fi
       - destroy-environment
       - revert-migrations
-  cloudfront-update:
+cloudfront-update:
     docker:
       - image: cimg/base:stable
     steps:
@@ -410,7 +410,7 @@ jobs:
       # Here's where you will add some code to rollback on failure
       - destroy-environment
       - revert-migrations
-  cleanup:
+cleanup:
     docker:
       - image: cimg/base:stable
     steps:
