@@ -1,5 +1,5 @@
 Description: >
-    UdaPeople backend stack.
+  UdaPeople backend stack.
 Parameters:
   ID:
     Description: Unique identifier.
@@ -37,7 +37,6 @@ Resources:
           ToPort: 80
           CidrIp: 0.0.0.0/0
 
-
   EC2Instance:
     Type: AWS::EC2::Instance
     Properties:
@@ -57,3 +56,4 @@ Resources:
   #   Properties:
   #    Domain: vpc 
   #    InstanceId: !Ref EC2Instance
+       
