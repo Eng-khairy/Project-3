@@ -223,7 +223,7 @@ jobs:
           name: Configure Server
           command: |
             cd .circleci/ansible
-            cat inventory.txt
+            # cat inventory.txt
             ansible-playbook -i inventory.txt configure-server.yml
       # - destroy-environment
 
@@ -252,9 +252,10 @@ jobs:
       - run:
           name: Send migration results to kvdb.io
           command: |
+          
              if grep -q "has been executed successfully." ~/project/backend/migrations_dump.txt
              then
-                curl https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
+                curl https://kvdb.io/WHgL4e7X6TE5H2S6QBDjpa/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7}  -d '1'
                 curl --insecure https://kvdb.io/${KVDB_BUCKET}/migration_${CIRCLE_WORKFLOW_ID:0:7}
                echo " Migrations Successful "
                cat ~/project/backend/migrations_dump.txt
@@ -292,10 +293,15 @@ jobs:
       - run:
           name: Deploy frontend objects
           command: |
-            export NODE_ENV=production
-            cd frontend
+           cd frontend
+            npm install
             npm run build
+            tar -czvf artifact-"${CIRCLE_WORKFLOW_ID:0:7}".tar.gz dist
             aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
+            # export NODE_ENV=production
+            # cd frontend
+            # npm run build
+            # aws s3 cp dist s3://udapeople-${CIRCLE_WORKFLOW_ID:0:7} --recursive
       # - destroy-environment
       - revert-migrations
 
@@ -323,11 +329,17 @@ jobs:
           command: |
             cd backend
             npm run build
-            tar -czf artifact.tar.gz dist/* package*
-            cd ..
-            pwd
-            cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
-            ls .circleci/ansible/roles/deploy/files
+            tar -C backend -czvf artifact.tar.gz .
+            cd .circleci/ansible
+            echo "circleci/ansible/roles/deploy/files"
+            cat inventory.txt
+            ansible-playbook -i inventory.txt deploy-backend.yml  
+            
+            # tar -czf artifact.tar.gz dist/* package*
+            # cd ..
+            # pwd
+            # cp backend/artifact.tar.gz .circleci/ansible/roles/deploy/files
+            # ls .circleci/ansible/roles/deploy/files
       - run:
           name: Deploy backend
           command: |
@@ -350,11 +362,11 @@ jobs:
       - run:
           name: Backend smoke test.
           command: |
-            BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
-              --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
-              --query 'Reservations[*].Instances[*].PublicIpAddress' \
-              --output text)
-            export API_URL=http://${BACKEND_PUBLIC_IP}:3030/api/status
+            # BACKEND_PUBLIC_IP=$(aws ec2 describe-instances \
+            #   --filters "Name=tag:Name,Values=backend-${CIRCLE_WORKFLOW_ID:0:7}" \
+            #   --query 'Reservations[*].Instances[*].PublicIpAddress' \
+            #   --output text)
+            export API_URL="http://${BACKEND_PUBLIC_IP}:3030"
             if curl "${API_URL}/api/status" | grep "ok"        
             then
               exit 0
@@ -364,13 +376,24 @@ jobs:
       - run:
           name: Frontend smoke test.
           command: |
-            FRONTEND_WEBSITE=http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com
-            if curl -s $FRONTEND_WEBSITE | grep "Welcome"
-            then
-              exit 0
-            else
-              exit 1
-            fi
+           URL="http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website-us-east-1.amazonaws.com/#/employees"            
+           echo ${URL} 
+           if curl -s ${URL} | grep "Welcome"
+           then
+                # Change this to 0 after the job fails
+              return 1
+           else
+              return 1
+           fi
+           
+           
+            # FRONTEND_WEBSITE=http://udapeople-${CIRCLE_WORKFLOW_ID:0:7}.s3-website.${AWS_DEFAULT_REGION}.amazonaws.com
+            # if curl -s $FRONTEND_WEBSITE | grep "Welcome"
+            # then
+            #   exit 0
+            # else
+            #   exit 1
+            # fi
       # - destroy-environment
       - revert-migrations
 
