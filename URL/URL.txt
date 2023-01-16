@@ -1,0 +1,21 @@
+
+https://github.com/Eng-khairy/Project-3  repo github
+
+
+
+http://ec2-34-205-253-14.compute-1.amazonaws.com:9090/targets?search=   prometheus target
+ec2-34-205-253-14.compute-1.amazonaws.com   EC2 Prometheus
+
+
+http://34.205.183.83:3030/api/status         Backend ip
+ec2-34-205-183-83.compute-1.amazonaws.com    EC2 backend Dns
+
+
+http://udapeople-eb45726.s3-website-us-east-1.amazonaws.com/#/employees    s3 bucket
+
+
+http://d826clme3hwv9.cloudfront.net     Cloudfront 
+
+
+
+
